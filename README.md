@@ -22,7 +22,6 @@ A simple **Rails + React** full-stack Todo application that follows **clean arch
 
 * **React (Functional Components + Hooks)**
 
-* **Axios / Fetch API** (for API requests)
 
 ### Others:
 - **Foreman** for running Rails and Webpack together in development
@@ -57,6 +56,7 @@ rails db:create
 rails db:migrate
 rails db:seed
 foreman start -f Procfile.dev
+
 
 
 
