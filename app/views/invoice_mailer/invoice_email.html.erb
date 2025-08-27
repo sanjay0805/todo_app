@@ -1,0 +1,55 @@
+<h2>🧾 Invoice Summary - ID: <%= @invoice&.id || 'N/A' %></h2>
+
+<p><strong>Customer Email:</strong> <%= @customer&.email || 'N/A' %></p>
+
+<% if @items&.any? %>
+  <h3>Product Details:</h3>
+  <table border="1" cellspacing="0" cellpadding="6">
+    <tr>
+      <th>Product ID</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Purchase Price</th>
+      <th>Tax %</th>
+      <th>Tax Payable</th>
+      <th>Total Price</th>
+    </tr>
+        <% total_price = 0.0; total_tax = 0.0 %>
+        <% @items.each do |item| %>
+        <% unit_price = item&.unit_price.to_f || 0.0 %>
+        <% quantity = item&.quantity.to_i || 0 %>
+        <% tax_percentage = item&.tax_percentage.to_f || 0.0 %>
+        <% purchase_price = unit_price * quantity %>
+        <% tax = (purchase_price * tax_percentage) / 100 %>
+        <% total = purchase_price + tax %>
+        <% total_price += purchase_price %>
+        <% total_tax += tax %>
+        <tr>
+            <td><%= item&.product&.product_id || 'N/A' %></td>
+            <td><%= unit_price.round(2) %></td>
+            <td><%= quantity %></td>
+            <td><%= purchase_price.round(2) %></td>
+            <td><%= tax_percentage.round(2) %></td>
+            <td><%= tax.round(2) %></td>
+            <td><%= total.round(2) %></td>
+        </tr>
+        <% end %>
+  </table>
+<% else %>
+  <p><em>No product details available.</em></p>
+  <% total_price = 0.0; total_tax = 0.0 %>
+<% end %>
+
+<% net_price = total_price + total_tax %>
+<% rounded_price = net_price.round %>
+<% amount_paid = @invoice&.amount_paid.to_f || 0.0 %>
+<% balance = amount_paid - rounded_price %>
+
+<h3>Totals</h3>
+<ul>
+  <li><strong>Total price without tax:</strong> ₹<%= total_price.round(2) %></li>
+  <li><strong>Total tax payable:</strong> ₹<%= total_tax.round(2) %></li>
+  <li><strong>Net price of the purchased items:</strong> ₹<%= net_price.round(2) %></li>
+  <li><strong>Rounded down value of the purchased items:</strong> ₹<%= rounded_price %></li>
+  <li><strong>Balance payable to the customer:</strong> ₹<%= balance.round(2) %></li>
+</ul>
