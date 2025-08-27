@@ -16,7 +16,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
-gem "foreman", "~> 0.87.2"
+gem "foreman", "~> 0.90.0"
 gem "delayed_job_active_record", "~> 4.1", ">= 4.1.11"
 gem "daemons"
 gem "ruby-openai"
