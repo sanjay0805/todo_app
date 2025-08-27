@@ -19,6 +19,9 @@ gem "jbuilder"
 gem "foreman", "~> 0.87.2"
 gem "delayed_job_active_record", "~> 4.1", ">= 4.1.11"
 gem "daemons"
+gem "ruby-openai"
+gem "dotenv-rails"
+gem "faraday"
 
 
 

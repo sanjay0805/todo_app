@@ -1083,7 +1083,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState2(initialState) {
+        function useState3(initialState) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useState(initialState);
         }
@@ -1107,7 +1107,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useLayoutEffect(create, deps);
         }
-        function useCallback(callback, deps) {
+        function useCallback3(callback, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useCallback(callback, deps);
         }
@@ -1874,7 +1874,7 @@ var require_react_development = __commonJS({
         exports.memo = memo;
         exports.startTransition = startTransition;
         exports.unstable_act = act;
-        exports.useCallback = useCallback;
+        exports.useCallback = useCallback3;
         exports.useContext = useContext;
         exports.useDebugValue = useDebugValue;
         exports.useDeferredValue = useDeferredValue;
@@ -1886,7 +1886,7 @@ var require_react_development = __commonJS({
         exports.useMemo = useMemo;
         exports.useReducer = useReducer;
         exports.useRef = useRef;
-        exports.useState = useState2;
+        exports.useState = useState3;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition;
         exports.version = ReactVersion;
@@ -2382,9 +2382,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React3 = require_react();
+        var React4 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React4.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -3991,7 +3991,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React3.Children.forEach(props.children, function(child) {
+                React4.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -4487,15 +4487,15 @@ var require_react_dom_development = __commonJS({
           };
         }
         var warnValidStyle$1 = warnValidStyle;
-        function createDangerousStringForStyles(styles) {
+        function createDangerousStringForStyles(styles3) {
           {
             var serialized = "";
             var delimiter = "";
-            for (var styleName in styles) {
-              if (!styles.hasOwnProperty(styleName)) {
+            for (var styleName in styles3) {
+              if (!styles3.hasOwnProperty(styleName)) {
                 continue;
               }
-              var styleValue = styles[styleName];
+              var styleValue = styles3[styleName];
               if (styleValue != null) {
                 var isCustomProperty = styleName.indexOf("--") === 0;
                 serialized += delimiter + (isCustomProperty ? styleName : hyphenateStyleName(styleName)) + ":";
@@ -4506,19 +4506,19 @@ var require_react_dom_development = __commonJS({
             return serialized || null;
           }
         }
-        function setValueForStyles(node, styles) {
+        function setValueForStyles(node, styles3) {
           var style2 = node.style;
-          for (var styleName in styles) {
-            if (!styles.hasOwnProperty(styleName)) {
+          for (var styleName in styles3) {
+            if (!styles3.hasOwnProperty(styleName)) {
               continue;
             }
             var isCustomProperty = styleName.indexOf("--") === 0;
             {
               if (!isCustomProperty) {
-                warnValidStyle$1(styleName, styles[styleName]);
+                warnValidStyle$1(styleName, styles3[styleName]);
               }
             }
-            var styleValue = dangerousStyleValue(styleName, styles[styleName], isCustomProperty);
+            var styleValue = dangerousStyleValue(styleName, styles3[styleName], isCustomProperty);
             if (styleName === "float") {
               styleName = "cssFloat";
             }
@@ -4532,9 +4532,9 @@ var require_react_dom_development = __commonJS({
         function isValueEmpty(value) {
           return value == null || typeof value === "boolean" || value === "";
         }
-        function expandShorthandMap(styles) {
+        function expandShorthandMap(styles3) {
           var expanded = {};
-          for (var key in styles) {
+          for (var key in styles3) {
             var longhands = shorthandToLonghand[key] || [key];
             for (var i = 0; i < longhands.length; i++) {
               expanded[longhands[i]] = key;
@@ -23581,154 +23581,259 @@ var require_client = __commonJS({
 });
 
 // app/javascript/application.js
-var import_react2 = __toESM(require_react());
+var import_react3 = __toESM(require_react());
 var import_client = __toESM(require_client());
 
-// app/javascript/components/BillingForm.jsx
+// app/javascript/components/App.jsx
+var import_react2 = __toESM(require_react());
+
+// app/javascript/components/Todo.jsx
 var import_react = __toESM(require_react());
-var defaultDenominations = [2e3, 500, 200, 100, 50, 20, 10, 5, 2, 1];
-function BillingForm() {
-  const [email, setEmail] = (0, import_react.useState)("");
-  const [products, setProducts] = (0, import_react.useState)([{ product_id: "", quantity: 1 }]);
-  const [denominations, setDenominations] = (0, import_react.useState)({});
-  const [amountPaid, setAmountPaid] = (0, import_react.useState)("");
-  const [productOptions, setProductOptions] = (0, import_react.useState)([]);
-  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute("content");
-  (0, import_react.useEffect)(() => {
-    fetch("/api/billings/products").then((res) => res.json()).then((data) => setProductOptions(data)).catch((err) => console.error("Failed to fetch products", err));
-    fetch("/api/billings/denominations").then((res) => res.json()).then((data) => {
-      const initialDenominations = {};
-      data.forEach((denom) => {
-        initialDenominations[denom.value] = denom.count || 0;
-      });
-      setDenominations(initialDenominations);
-    });
-  }, []);
-  const handleProductChange = (index, field, value) => {
-    const newProducts = [...products];
-    newProducts[index][field] = value;
-    setProducts(newProducts);
-  };
-  const addProductRow = () => {
-    setProducts([...products, { product_id: "", quantity: 1 }]);
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const payload = {
-      email,
-      products,
-      denominations,
-      amount_paid: parseFloat(amountPaid)
-    };
-    try {
-      const response = await fetch("/api/billings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken
-        },
-        body: JSON.stringify(payload)
-      });
-      const data = await response.json();
-      alert("Bill generated and emailed successfully!");
-      console.log(data);
-    } catch (error) {
-      console.error("Billing error:", error);
-      alert("Error generating bill.");
+var Todo = import_react.default.memo(function Todo2({ todo, toggleTodo, deleteTodo, editTodo }) {
+  const [isEditing, setIsEditing] = (0, import_react.useState)(false);
+  const [title, setTitle] = (0, import_react.useState)(todo.title);
+  const saveEdit = (0, import_react.useCallback)(async () => {
+    const trimmed = title.trim();
+    if (trimmed && trimmed !== todo.title) {
+      await editTodo(todo.id, trimmed);
     }
-  };
-  const containerStyle = {
-    maxWidth: "600px",
-    margin: "30px auto",
-    padding: "25px",
-    border: "1px solid #ddd",
-    borderRadius: "12px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-    background: "#fff",
-    fontFamily: "Arial, sans-serif"
-  };
-  const sectionStyle = {
-    marginBottom: "20px"
-  };
-  const inputStyle = {
-    padding: "8px",
-    margin: "5px 0",
-    width: "100%",
-    boxSizing: "border-box",
-    borderRadius: "6px",
-    border: "1px solid #ccc"
-  };
-  const labelStyle = {
-    display: "block",
-    fontWeight: "bold",
-    marginBottom: "4px"
-  };
-  const buttonStyle = {
-    backgroundColor: "#4CAF50",
-    color: "white",
-    padding: "10px 16px",
-    border: "none",
-    borderRadius: "6px",
-    cursor: "pointer",
-    marginTop: "10px"
-  };
-  return /* @__PURE__ */ import_react.default.createElement("div", { style: containerStyle }, /* @__PURE__ */ import_react.default.createElement("h2", { style: { textAlign: "center" } }, "\u{1F9FE} Generate Bill"), /* @__PURE__ */ import_react.default.createElement("form", { onSubmit: handleSubmit }, /* @__PURE__ */ import_react.default.createElement("div", { style: sectionStyle }, /* @__PURE__ */ import_react.default.createElement("label", { style: labelStyle }, "Customer Email"), /* @__PURE__ */ import_react.default.createElement(
-    "input",
-    {
-      type: "email",
-      value: email,
-      required: true,
-      onChange: (e) => setEmail(e.target.value),
-      style: inputStyle,
-      placeholder: "e.g. customer@example.com"
-    }
-  )), /* @__PURE__ */ import_react.default.createElement("div", { style: sectionStyle }, /* @__PURE__ */ import_react.default.createElement("h4", null, "\u{1F6D2} Products Purchased"), products.map((product, index) => /* @__PURE__ */ import_react.default.createElement("div", { key: index, style: { display: "flex", gap: "10px", marginBottom: "10px" } }, /* @__PURE__ */ import_react.default.createElement(
-    "select",
-    {
-      value: product.product_id,
-      onChange: (e) => handleProductChange(index, "product_id", e.target.value),
-      required: true,
-      style: { ...inputStyle, flex: 2 }
+    setIsEditing(false);
+    setTitle(todo.title);
+  }, [title, todo.id, todo.title, editTodo]);
+  const cancelEdit = (0, import_react.useCallback)(() => {
+    setIsEditing(false);
+    setTitle(todo.title);
+  }, [todo.title]);
+  const handleKeyPress = (0, import_react.useCallback)(
+    (e) => {
+      if (e.key === "Enter") saveEdit();
+      if (e.key === "Escape") cancelEdit();
     },
-    /* @__PURE__ */ import_react.default.createElement("option", { value: "" }, "Select Product"),
-    productOptions.map((opt) => /* @__PURE__ */ import_react.default.createElement("option", { key: opt.id || opt.product_id, value: opt.product_id }, opt.name ? `${opt.name} (${opt.product_id})` : opt.product_id))
-  ), /* @__PURE__ */ import_react.default.createElement(
+    [saveEdit, cancelEdit]
+  );
+  const handleDelete = (0, import_react.useCallback)(async () => {
+    if (window.confirm("Are you sure you want to delete this todo?")) {
+      await deleteTodo(todo.id);
+    }
+  }, [deleteTodo, todo.id]);
+  const handleToggle = (0, import_react.useCallback)(() => toggleTodo(todo.id), [toggleTodo, todo.id]);
+  return /* @__PURE__ */ import_react.default.createElement(
+    "li",
+    {
+      style: {
+        ...styles.li,
+        backgroundColor: todo.completed ? "#d4edda" : "#fff3cd"
+      }
+    },
+    /* @__PURE__ */ import_react.default.createElement("div", { style: styles.todoContent }, /* @__PURE__ */ import_react.default.createElement(
+      "input",
+      {
+        id: `todo-${todo.id}`,
+        type: "checkbox",
+        checked: todo.completed,
+        onChange: handleToggle,
+        style: styles.checkbox
+      }
+    ), isEditing ? /* @__PURE__ */ import_react.default.createElement(
+      "input",
+      {
+        type: "text",
+        value: title,
+        onChange: (e) => setTitle(e.target.value),
+        onKeyDown: handleKeyPress,
+        style: styles.input,
+        autoFocus: true
+      }
+    ) : /* @__PURE__ */ import_react.default.createElement(
+      "label",
+      {
+        htmlFor: `todo-${todo.id}`,
+        style: {
+          ...styles.title,
+          textDecoration: todo.completed ? "line-through" : "none",
+          color: todo.completed ? "#155724" : "#856404"
+        }
+      },
+      todo.title
+    )),
+    /* @__PURE__ */ import_react.default.createElement("div", { style: styles.buttonGroup }, /* @__PURE__ */ import_react.default.createElement(
+      "button",
+      {
+        onClick: isEditing ? saveEdit : () => setIsEditing(true),
+        style: { ...styles.button, backgroundColor: "#28a745", color: "#fff" }
+      },
+      isEditing ? "Save" : "Edit"
+    ), isEditing && /* @__PURE__ */ import_react.default.createElement("button", { onClick: cancelEdit, style: { ...styles.button, backgroundColor: "#dc3545", color: "#fff" } }, "Cancel"), /* @__PURE__ */ import_react.default.createElement("button", { onClick: handleDelete, style: { ...styles.button, backgroundColor: "#e83e8c", color: "#fff" } }, "\u274C"))
+  );
+});
+var Todo_default = Todo;
+var styles = {
+  li: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "12px 16px",
+    borderRadius: "8px",
+    margin: "8px 0",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+    transition: "background-color 0.3s, transform 0.2s"
+  },
+  todoContent: { display: "flex", alignItems: "center", flex: 1 },
+  checkbox: { width: "18px", height: "18px" },
+  title: { marginLeft: "12px", cursor: "pointer", flex: 1, fontWeight: 500, fontSize: "1rem" },
+  input: { marginLeft: "12px", flex: 1, padding: "6px 8px", borderRadius: "5px", border: "1px solid #ccc", fontSize: "1rem" },
+  buttonGroup: { display: "flex", alignItems: "center" },
+  button: {
+    marginLeft: "6px",
+    padding: "6px 12px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontWeight: 500,
+    transition: "opacity 0.2s, transform 0.2s"
+  }
+};
+
+// app/javascript/components/App.jsx
+function App() {
+  const [todos, setTodos] = (0, import_react2.useState)([]);
+  const [task, setTask] = (0, import_react2.useState)("");
+  const fetchTodos = (0, import_react2.useCallback)(async () => {
+    try {
+      const res = await fetch("/api/v1/todos");
+      const data = await res.json();
+      setTodos(data);
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+  (0, import_react2.useEffect)(() => {
+    fetchTodos();
+  }, [fetchTodos]);
+  const addTodo = async (e) => {
+    e.preventDefault();
+    const trimmed = task.trim();
+    if (!trimmed) return;
+    try {
+      const res = await fetch("/api/v1/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ todo: { title: trimmed, completed: false } })
+      });
+      const newTodo = await res.json();
+      setTodos((prev) => [newTodo, ...prev]);
+      setTask("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const toggleTodo = (0, import_react2.useCallback)(async (id, completed) => {
+    try {
+      const res = await fetch(`/api/v1/todos/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ todo: { completed: !completed } })
+      });
+      const updated = await res.json();
+      setTodos((prev) => prev.map((t) => t.id === id ? updated : t));
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+  const deleteTodo = (0, import_react2.useCallback)(async (id) => {
+    try {
+      await fetch(`/api/v1/todos/${id}`, { method: "DELETE" });
+      setTodos((prev) => prev.filter((t) => t.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+  const editTodo = (0, import_react2.useCallback)(async (id, title) => {
+    try {
+      const res = await fetch(`/api/v1/todos/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ todo: { title } })
+      });
+      const updated = await res.json();
+      setTodos((prev) => prev.map((t) => t.id === id ? updated : t));
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+  return /* @__PURE__ */ import_react2.default.createElement("div", { style: styles2.appBackground }, /* @__PURE__ */ import_react2.default.createElement("div", { style: styles2.container }, /* @__PURE__ */ import_react2.default.createElement("h1", { style: styles2.header }, "Todo App"), /* @__PURE__ */ import_react2.default.createElement("form", { onSubmit: addTodo, style: styles2.form }, /* @__PURE__ */ import_react2.default.createElement(
     "input",
     {
-      type: "number",
-      placeholder: "Qty",
-      required: true,
-      value: product.quantity,
-      min: "1",
-      onChange: (e) => handleProductChange(index, "quantity", e.target.value),
-      style: { ...inputStyle, flex: 1 }
+      type: "text",
+      value: task,
+      onChange: (e) => setTask(e.target.value),
+      placeholder: "Add a new task...",
+      style: styles2.input
     }
-  ))), /* @__PURE__ */ import_react.default.createElement("button", { type: "button", onClick: addProductRow, style: { ...buttonStyle, backgroundColor: "#007bff" } }, "+ Add New Product")), /* @__PURE__ */ import_react.default.createElement("div", { style: sectionStyle }, /* @__PURE__ */ import_react.default.createElement("h4", null, "\u{1F4B5} Denominations"), /* @__PURE__ */ import_react.default.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "10px" } }, defaultDenominations.map((value) => /* @__PURE__ */ import_react.default.createElement("div", { key: value }, /* @__PURE__ */ import_react.default.createElement("label", { style: labelStyle }, "\u20B9", value), /* @__PURE__ */ import_react.default.createElement(
-    "input",
+  ), /* @__PURE__ */ import_react2.default.createElement("button", { type: "submit", style: styles2.addButton }, "Add")), /* @__PURE__ */ import_react2.default.createElement("ul", { style: styles2.list }, todos.map((todo) => /* @__PURE__ */ import_react2.default.createElement(
+    Todo_default,
     {
-      type: "number",
-      min: "0",
-      style: { width: "60px", ...inputStyle },
-      readOnly: true,
-      value: denominations[value] || 0
+      key: todo.id,
+      todo,
+      toggleTodo: () => toggleTodo(todo.id, todo.completed),
+      deleteTodo: () => deleteTodo(todo.id),
+      editTodo
     }
-  ))))), /* @__PURE__ */ import_react.default.createElement("div", { style: sectionStyle }, /* @__PURE__ */ import_react.default.createElement("label", { style: labelStyle }, "Total Amount Paid (\u20B9)"), /* @__PURE__ */ import_react.default.createElement(
-    "input",
-    {
-      type: "number",
-      min: "0",
-      value: amountPaid,
-      onChange: (e) => setAmountPaid(e.target.value),
-      style: inputStyle
-    }
-  )), /* @__PURE__ */ import_react.default.createElement("button", { type: "submit", style: buttonStyle }, "\u2705 Generate Bill")));
+  )))));
 }
+var styles2 = {
+  appBackground: {
+    minHeight: "100vh",
+    margin: 0,
+    background: "linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)",
+    // soft gradient background
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  container: {
+    padding: "2rem",
+    maxWidth: "400px",
+    width: "100%",
+    background: "#ffeeba",
+    borderRadius: "10px",
+    boxShadow: "0px 4px 10px rgba(0,0,0,0.1)"
+  },
+  header: {
+    textAlign: "center",
+    color: "#856404"
+  },
+  form: {
+    display: "flex",
+    marginBottom: "1rem"
+  },
+  input: {
+    flex: 1,
+    padding: "8px",
+    borderRadius: "5px",
+    border: "1px solid #ccc"
+  },
+  addButton: {
+    padding: "8px 12px",
+    marginLeft: "8px",
+    borderRadius: "5px",
+    border: "none",
+    background: "#28a745",
+    color: "#fff",
+    cursor: "pointer"
+  },
+  list: {
+    listStyle: "none",
+    padding: 0,
+    margin: 0
+  }
+};
 
 // app/javascript/application.js
 var rootElement = document.getElementById("root");
 if (rootElement) {
   const root = import_client.default.createRoot(rootElement);
-  root.render(/* @__PURE__ */ import_react2.default.createElement(BillingForm, null));
+  root.render(/* @__PURE__ */ import_react3.default.createElement(App, null));
 }
 /*! Bundled license information:
 
