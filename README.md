@@ -48,7 +48,7 @@ Demo Video: [https://www.loom.com/share/29b68b604d7a42329c44e70ac70f3f79?sid=df2
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/sanjaydotrb/billing_system.git
+git clone https://github.com/sanjaydotrb/todo_app.git
 cd todo_app
 gem install bundler
 bundle install
@@ -57,5 +57,6 @@ rails db:create
 rails db:migrate
 rails db:seed
 foreman start -f Procfile.dev
+
 
 
